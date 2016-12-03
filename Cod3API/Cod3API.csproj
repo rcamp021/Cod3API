@@ -64,6 +64,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.3\lib\net45\System.Web.Cors.dll</HintPath>
       <Private>True</Private>
@@ -112,24 +113,64 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Cod3Model.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Cod3Model.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Cod3Model.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Cod3Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Cod3Model.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Cod3Model.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Em.cs">
+      <DependentUpon>Cod3Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Police.cs">
+      <DependentUpon>Cod3Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PoliceAndEms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="Models\cod3.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </Content>
-    <Content Include="Web.config" />
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <Content Include="Web.config" />
+    <EntityDeploy Include="Models\Cod3Model.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Cod3Model.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Cod3Model.edmx.diagram">
+      <DependentUpon>Cod3Model.edmx</DependentUpon>
+    </Content>
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Models\Cod3Model.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Cod3Model.edmx</DependentUpon>
+      <LastGenOutput>Cod3Model.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Cod3Model.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Cod3Model.edmx</DependentUpon>
+      <LastGenOutput>Cod3Model.cs</LastGenOutput>
+    </Content>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -29,5 +29,7 @@ namespace Cod3API.Models
         public Nullable<System.DateTime> OnSceneDateTime { get; set; }
         public Nullable<System.DateTime> CloseDateTime { get; set; }
         public System.Data.Entity.Spatial.DbGeography Location { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
     }
 }
