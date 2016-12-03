@@ -7,7 +7,7 @@ namespace Cod3API.Controllers
 {
     public class LocationController : ApiController
     {
-        [Route("GetPolice")]
+        [Route("GetPolice/{latitude:float}/{longitude:float}/{metersInRadius:int}")]
         public float GetPolice(float latitude, float longitude, int metersInRadius)
         {
             using (var context = new cod3Entities())
@@ -16,7 +16,7 @@ namespace Cod3API.Controllers
             }
             
         }
-        [Route("GetPoliceWithPriority")]
+        [Route("GetPoliceWithPriority/{latitude:float}/{longitude:float}/{metersInRadius}/{priority}")]
         public float GetPolice(float latitude, float longitude, int metersInRadius, string priority)
         {
             using (var context = new cod3Entities())
@@ -25,7 +25,7 @@ namespace Cod3API.Controllers
             }
 
         }
-        [Route("GetEms")]
+        [Route("GetEms/{latitude:float}/{longitude:float}/{metersInRadius:int}")]
         public float GetEms(float latitude, float longitude, int metersInRadius)
         {
             using (var context = new cod3Entities())
@@ -33,7 +33,7 @@ namespace Cod3API.Controllers
                 return context.GetEms(latitude, longitude, metersInRadius);
             }
         }
-        [Route("GetEmsWithPriority")]
+        [Route("GetEmsWithPriority/{latitude:float}/{longitude:float}/{metersInRadius:int}/{priority:int}")]
         public float GetEms(float latitude, float longitude, int metersInRadius, int priority)
         {
             using (var context = new cod3Entities())
@@ -42,8 +42,8 @@ namespace Cod3API.Controllers
             }
         }
 
-        [Route("Get")]
-        public PoliceAndEms GetBoth(float latitude, float longitude, int metersInRadius)
+        
+        public PoliceAndEms GetBoth(float latitude, float longitude, int metersInRadius, int? policePriority, int? emsPriority)
         {
             using (var context = new cod3Entities())
             {
