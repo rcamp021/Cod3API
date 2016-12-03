@@ -1,54 +1,62 @@
 ﻿using System.Collections.Generic;
 using System.Configuration;
+using System.Data.Entity.Core.Objects;
+using System.Globalization;
+using System.Linq;
 using System.Web.Http;
 using Cod3API.Models;
 
 namespace Cod3API.Controllers
 {
+    [RoutePrefix("Location")]
     public class LocationController : ApiController
     {
-        [Route("GetPolice/{latitude:float}/{longitude:float}/{metersInRadius:int}")]
-        public float GetPolice(float latitude, float longitude, int metersInRadius)
+        [Route("GetPolice")]
+        public IHttpActionResult GetPolice(float latitude, float longitude, int? metersInRadius)
         {
             using (var context = new cod3Entities())
             {
-                return context.GetPolice(latitude, longitude, metersInRadius);
+                return Ok(context.GetPolice(latitude.ToString(CultureInfo.CurrentCulture),
+                    longitude.ToString(CultureInfo.CurrentCulture), metersInRadius).FirstOrDefault());
             }
             
         }
-        [Route("GetPoliceWithPriority/{latitude:float}/{longitude:float}/{metersInRadius}/{priority}")]
-        public float GetPolice(float latitude, float longitude, int metersInRadius, string priority)
-        {
-            using (var context = new cod3Entities())
-            {
-                return context.GetPolice(latitude, longitude, metersInRadius).Where(x => x.Priority == priority);
-            }
+        //[Route("GetPoliceWithPriority/{latitude:float}/{longitude:float}/{metersInRadius}/{priority}")]
+        //public IHttpActionResult GetPolice(float latitude, float longitude, int metersInRadius, int? priority)
+        //{
+        //    using (var context = new cod3Entities())
+        //    {
+        //        return Ok( context.GetPolice(latitude.ToString(CultureInfo.CurrentCulture),
+        //            longitude.ToString(CultureInfo.CurrentCulture), metersInRadius, priority).FirstOrDefault());
+        //    }
 
-        }
-        [Route("GetEms/{latitude:float}/{longitude:float}/{metersInRadius:int}")]
-        public float GetEms(float latitude, float longitude, int metersInRadius)
+        //}
+        [Route("GetEms")]
+        public IHttpActionResult GetEms(float latitude, float longitude, int? metersInRadius)
         {
             using (var context = new cod3Entities())
             {
-                return context.GetEms(latitude, longitude, metersInRadius);
+                return Ok(context.GetEms(latitude.ToString(CultureInfo.CurrentCulture),
+                    longitude.ToString(CultureInfo.CurrentCulture), metersInRadius).FirstOrDefault());
             }
         }
-        [Route("GetEmsWithPriority/{latitude:float}/{longitude:float}/{metersInRadius:int}/{priority:int}")]
-        public float GetEms(float latitude, float longitude, int metersInRadius, int priority)
-        {
-            using (var context = new cod3Entities())
-            {
-                return context.GetEms(latitude, longitude, metersInRadius).Where(x => x.CallPriority == priority);
-            }
-        }
+        //[Route("GetEmsWithPriority/{latitude:float}/{longitude:float}/{metersInRadius:int}/{priority:int}")]
+        //public IHttpActionResult GetEms(float latitude, float longitude, int metersInRadius, int priority)
+        //{
+        //    using (var context = new cod3Entities())
+        //    {
+        //        return Ok(context.GetEms(latitude.ToString(CultureInfo.CurrentCulture), longitude.ToString(CultureInfo.CurrentCulture),
+        //            metersInRadius, priority).FirstOrDefault());
+        //    }
+        //}
 
-        
-        public PoliceAndEms GetBoth(float latitude, float longitude, int metersInRadius, int? policePriority, int? emsPriority)
-        {
-            using (var context = new cod3Entities())
-            {
-                return context.GetBoth(latitude, longitude, metersInRadius);
-            }
-        }
+
+        //public PoliceAndEms GetBoth(float latitude, float longitude, int metersInRadius, int? policePriority, int? emsPriority)
+        //{
+        //    using (var context = new cod3Entities())
+        //    {
+        //        return context.GetBoth(latitude, longitude, metersInRadius);
+        //    }
+        //}
     }
 }

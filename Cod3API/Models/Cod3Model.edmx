@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="cod3Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="cod3Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Ems">
           <Key>
             <PropertyRef Name="Id" />
@@ -45,12 +45,21 @@
           <Property Name="Latitude" Type="nvarchar" MaxLength="50" />
           <Property Name="Longitude" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <Function Name="GetEms" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="latitude" Type="varchar" Mode="In" />
+          <Parameter Name="longitude" Type="varchar" Mode="In" />
+          <Parameter Name="meters" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetPolice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="latitude" Type="varchar" Mode="In" />
+          <Parameter Name="longitude" Type="varchar" Mode="In" />
+          <Parameter Name="meters" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="cod3ModelStoreContainer">
           <EntitySet Name="Ems" EntityType="Self.Ems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Police" EntityType="Self.Police" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="cod3Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -97,7 +106,30 @@
         <EntityContainer Name="cod3Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Ems" EntityType="Self.Em" />
           <EntitySet Name="Police" EntityType="Self.Police" />
+          <FunctionImport Name="GetEms" ReturnType="Collection(cod3Model.GetEms_Result1)">
+            <Parameter Name="latitude" Mode="In" Type="String" />
+            <Parameter Name="longitude" Mode="In" Type="String" />
+            <Parameter Name="meters" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetPolice" ReturnType="Collection(cod3Model.GetPolice_Result)">
+            <Parameter Name="latitude" Mode="In" Type="String" />
+            <Parameter Name="longitude" Mode="In" Type="String" />
+            <Parameter Name="meters" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="GetPolice_Result">
+          <Property Type="Double" Name="Average" Nullable="true" />
+          <Property Type="Double" Name="NinetyNinthPercentile" Nullable="true" />
+          <Property Type="Double" Name="NineteithPercentile" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetEms_Result">
+          <Property Type="Decimal" Name="Column1" Nullable="true" Precision="38" Scale="6" />
+        </ComplexType>
+        <ComplexType Name="GetEms_Result1">
+          <Property Type="Double" Name="Average" Nullable="true" />
+          <Property Type="Double" Name="NinetyNinthPercentile" Nullable="true" />
+          <Property Type="Double" Name="NineteithPercentile" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -146,6 +178,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetEms" FunctionName="cod3Model.Store.GetEms" >
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="cod3Model.GetEms_Result1">
+                <ScalarProperty Name="Average" ColumnName="Average" />
+                <ScalarProperty Name="NinetyNinthPercentile" ColumnName="NinetyNinthPercentile" />
+                <ScalarProperty Name="NineteithPercentile" ColumnName="NineteithPercentile" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetPolice" FunctionName="cod3Model.Store.GetPolice" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="cod3Model.GetPolice_Result">
+                <ScalarProperty Name="Average" ColumnName="Average" />
+                <ScalarProperty Name="NinetyNinthPercentile" ColumnName="NinetyNinthPercentile" />
+                <ScalarProperty Name="NineteithPercentile" ColumnName="NineteithPercentile" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
